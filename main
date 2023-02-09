@@ -2,8 +2,8 @@
 #PBS -k o
 #PBS -l nodes=1:ppn=4,walltime=01:00:00
 
-set -e
-set -x
+# set -e
+# set -x
 
 subjID=`jq -r '._inputs[0].meta.subject' config.json`
 seg_est=`jq -r '.seg_est' config.json`
