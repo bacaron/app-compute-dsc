@@ -2,6 +2,52 @@
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.212-blue.svg)](https://doi.org/10.25663/brainlife.app.212)
 
 # app-compute-dsc
+
+<!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
+
+> **Measures the overlap between estimated and ground-truth white matter bundles, given as WMC classifications of two separate tractograms, with the Dice similarity coefficient, Jaccard index and sensitivity.**
+
+Converts both tractograms to .trk using the T1, extracts the bundles listed in tractID_list from each WMC classification, voxelizes them and computes DSC, weighted DSC, Jaccard, sensitivity, TP, FP and FN per bundle. Use it to evaluate a bundle segmentation against a reference segmentation of the same subject made on a different tractogram. All inputs must belong to the same subject.
+
+| | |
+|---|---|
+| 📥 **Inputs** | `neuro/track/tck` ×2 · `neuro/wmc` ×2 · `neuro/anat/t1w` |
+| 📤 **Outputs** | `neuro/tractmeasures` |
+| 🐳 **Container** | `brainlife/dipy:0.16.0` |
+| ⚙️ **Resources** | 4 CPUs · 1 h walltime |
+| 🔗 **Run it** | [doi.org/10.25663/brainlife.app.729](https://doi.org/10.25663/brainlife.app.729) |
+
+#### 📥 Inputs
+
+| Input | Datatype | Required | Description |
+|---|---|---|---|
+| `0` | `neuro/track/tck` | yes | Tractogram associated with the white matter classification (WMC) structure |
+| `1` | `neuro/wmc` | yes | Ground truth bundles in form of white matter classification (WMC) structure |
+| `2` | `neuro/track/tck` | yes | Tractogram associated with the white matter classification (WMC) structure |
+| `3` | `neuro/wmc` | yes | Estimated bundles in form of white matter classification (WMC) structure |
+| `4` | `neuro/anat/t1w` (acpc_aligned) | yes | ACPC-aligned T1 of the subject, used as reference to convert the tractograms from .tck to .trk. |
+
+#### 📤 Outputs
+
+| Output | Datatype | Description |
+|---|---|---|
+| `csv` | `neuro/tractmeasures` | CSV containing the following scalars: DSC, wDSC, Jaccard, sensitivity, TP, FP, FN |
+
+<details>
+<summary><b>⚙️ Parameters</b> (1)</summary>
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `tractID_list` | string |  | ID list of the bundles of interest, separated by commas |
+
+</details>
+
+📚 **References used by this App:**
+- Dice LR. Measures of the amount of ecologic association between species. Ecology 26(3):297-302 (1945).
+- Avesani P, et al. The open diffusion data derivatives, brain data upcycling via integrated publishing of derivatives and reproducible open cloud services. Sci Data 6:69 (2019). [doi:10.1038/s41597-019-0073-y](https://doi.org/10.1038/s41597-019-0073-y)
+
+<!-- brainlife-app:end -->
+
 This App was designed to compute the degree of overlap between two bundle masks using the Dice Similarity Coefficient (DSC) score (Dice et al., 1945). The DSC is a standard score to evaluate the result of bundle segmentation, being the two bundle masks (i) the estimated mask and (ii) the ground truth mask (see for example Garyfallidis et al., 2017, Wasserthal et al., 2018, Bertò et al., 2020).  
 Given two bundles b̂ and b, the DSC is proportional to the number of common voxels over the total number of voxels, as follows:
 
